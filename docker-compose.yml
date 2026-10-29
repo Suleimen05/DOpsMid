@@ -1,0 +1,42 @@
+name: suleimen-yeldossuly-student-api
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: suleimen-yeldossuly-postgres
+    environment:
+      POSTGRES_DB: studentdb
+      POSTGRES_USER: studentapi
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your shell}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - student-api
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  app:
+    build: .
+    image: suleimen-yeldossuly-student-api:v1.0.1-38320
+    container_name: suleimen-yeldossuly-student-api
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/studentdb
+      DB_USER: studentapi
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your shell}
+      SERVER_PORT: "8080"
+    ports:
+      - "8082:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - student-api
+
+volumes:
+  postgres-data:
+
+networks:
+  student-api:
