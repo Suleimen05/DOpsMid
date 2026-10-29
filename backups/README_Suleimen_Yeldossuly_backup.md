@@ -3,6 +3,7 @@
 DevOps midterm project for **Suleimen Yeldossuly**, group **IT2-2310**, student ID **38320**.
 
 This repository contains a Spring Boot CRUD application, Linux administration script, and the files needed for the Git, Docker, PostgreSQL, and Jenkins demonstrations. Its GitHub repository is `Suleimen05/DOpsMid`; the project resources use the personalized name `suleimen-yeldossuly-student-api`.
+This README also serves as Suleimen Yeldossuly's defense checklist. Demonstrate the commands below on this project.
 
 ## Project structure
 
@@ -64,3 +65,7 @@ Create a Pipeline job named `Suleimen_Yeldossuly_Student_API` using the reposito
 The image was first built as `suleimen-yeldossuly-student-api:v1.0-38320`. After the application version changed from `1.0.0` to `1.0.1`, it is rebuilt as `suleimen-yeldossuly-student-api:v1.0.1-38320`.
 
 The `Suleimen_Yeldossuly_Student_API_Test` job is reserved for a controlled failing build on a personal test branch. The main job continues to use `main`.
+
+## Git evidence for the defense
+
+Use `git log --graph --oneline --all --decorate` to show commits and merges, `git branch -a` to show the personal branches, `git tag` to show the version, and `git remote -v` to show the GitHub repository. Explain that `.gitignore` keeps build output and local `.env` files out of the repository. Passwords and database credentials belong in local environment variables or Jenkins Credentials, not in Git commits.
