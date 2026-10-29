@@ -2,6 +2,8 @@
 build/
 out/
 .idea/
+.vscode/
+bin/
 *.iml
 .env
 *.log
