@@ -39,7 +39,7 @@ class StudentApiIntegrationTest {
 
         mvc.perform(get("/api/students"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].groupName").value("IT2-2310"));
+            .andExpect(jsonPath("$[0].groupName").value("IT2-9999"));
     }
 
     @Test
