@@ -66,6 +66,8 @@ The image was first built as `suleimen-yeldossuly-student-api:v1.0-38320`. After
 
 The `Suleimen_Yeldossuly_Student_API_Test` job is reserved for a controlled failing build on a personal test branch. The main job continues to use `main`.
 
+For the controlled failure demonstration, the test branch temporarily expected group `IT2-9999` while the API returned `IT2-2310`. The Jenkins Test stage failed and Docker Build and Verify were skipped. Restoring the correct expectation makes the pipeline pass again.
+
 ## Git evidence for the defense
 
 Use `git log --graph --oneline --all --decorate` to show commits and merges, `git branch -a` to show the personal branches, `git tag` to show the version, and `git remote -v` to show the GitHub repository. Explain that `.gitignore` keeps build output and local `.env` files out of the repository. Passwords and database credentials belong in local environment variables or Jenkins Credentials, not in Git commits.
