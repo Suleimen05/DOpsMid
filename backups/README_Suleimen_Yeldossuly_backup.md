@@ -4,6 +4,7 @@ DevOps midterm project for **Suleimen Yeldossuly**, group **IT2-2310**, student 
 
 This repository contains a Spring Boot CRUD application, Linux administration script, and the files needed for the Git, Docker, PostgreSQL, and Jenkins demonstrations. Its GitHub repository is `Suleimen05/DOpsMid`; the project resources use the personalized name `suleimen-yeldossuly-student-api`.
 This README also serves as Suleimen Yeldossuly's defense checklist. Demonstrate the commands below on this project.
+For a step-by-step Russian defense guide on the prepared Windows machine, see [`DEFENSE_MIDTERM_RU.md`](DEFENSE_MIDTERM_RU.md).
 
 ## Project structure
 
@@ -69,7 +70,7 @@ curl -i http://localhost:8082/api/students/999999
 
 Use the ID returned by POST if it is not `1`. To demonstrate persistence, create a student, run `docker compose restart`, and request the student again. `docker compose down` keeps the named database volume; `docker compose down -v` deletes it.
 
-On Windows PowerShell, run `powershell -ExecutionPolicy Bypass -File scripts/verify_api.ps1 -VerifyPersistence` after `docker compose up --build -d`. The script uses the ID returned by POST, tests create/list/get/update/delete/404, restarts both Compose services, and verifies that the record still exists afterward. Use `powershell -ExecutionPolicy Bypass -File scripts/verify_api.ps1` without the switch to test an already running API without restarting Docker. Save the displayed HTTP results, `docker compose ps`, logs, image inspection, and container commands as defense evidence.
+On Windows PowerShell, run `powershell -ExecutionPolicy Bypass -File scripts/verify_api.ps1 -VerifyPersistence` after starting the containers. The script uses the ID returned by POST, tests create/list/get/update/delete/404, restarts the project's PostgreSQL and application containers in order, and verifies that the record still exists afterward. It does not need the database password. Use `powershell -ExecutionPolicy Bypass -File scripts/verify_api.ps1` without the switch to test an already running API without restarting Docker. Save the displayed HTTP results, container status, logs, image inspection, and container commands as defense evidence.
 
 ## Jenkins
 

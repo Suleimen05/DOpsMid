@@ -38,14 +38,19 @@ if ($updated.email -ne $updatedEmail) { throw 'PUT did not update the email.' }
 Write-Output "PUT $api/$id -> 200"
 
 if ($VerifyPersistence) {
-    if (-not $env:POSTGRES_PASSWORD) { throw 'Set POSTGRES_PASSWORD before verifying Compose persistence.' }
-    Push-Location (Split-Path $PSScriptRoot -Parent)
-    try {
-        docker compose restart
-        if ($LASTEXITCODE -ne 0) { throw 'docker compose restart failed.' }
-    } finally {
-        Pop-Location
+    docker restart suleimen-yeldossuly-postgres | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw 'PostgreSQL container restart failed.' }
+    $healthy = $false
+    for ($attempt = 0; $attempt -lt 40; $attempt++) {
+        if ((docker inspect --format '{{.State.Health.Status}}' suleimen-yeldossuly-postgres) -eq 'healthy') {
+            $healthy = $true
+            break
+        }
+        Start-Sleep -Seconds 2
     }
+    if (-not $healthy) { throw 'PostgreSQL did not become healthy after restart.' }
+    docker restart suleimen-yeldossuly-student-api | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw 'Application container restart failed.' }
     $persisted = $null
     for ($attempt = 0; $attempt -lt 40; $attempt++) {
         try {
@@ -58,7 +63,7 @@ if ($VerifyPersistence) {
     if (-not $persisted -or $persisted.email -ne $updatedEmail) {
         throw 'The updated record was not available after restarting Compose services.'
     }
-    Write-Output "GET $api/$id after docker compose restart -> 200 (record persisted)"
+    Write-Output "GET $api/$id after restarting both containers -> 200 (record persisted)"
 }
 
 $deleted = Invoke-WebRequest -Uri "$api/$id" -Method Delete -UseBasicParsing
